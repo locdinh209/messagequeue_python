@@ -27,9 +27,13 @@ import json
 # Send 10 queue
 for i in np.arange(1,11):
     x =  { 'name':'John', 'age':30, 'city':'New York'}
-    x['requestID'] = int(i)
+    x['request_id'] = str(uuid.uuid4())
     # requestID={'requestID': int(i)}  # Convert the id to a regular int
     # x.append(requestID)
+
+    # Call model test
+    x['model_id'] = 1 # Model test
+
     body_json = json.dumps(x)
     conn.send(destination='/queue/MLRequest',body=body_json,content_type=json)
 

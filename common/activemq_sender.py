@@ -11,8 +11,14 @@ class StompSender():
         self.conn.connect('admin', 'password', wait=True)
         _info_log.info('Create connection for sending successful')
 
-    def send(self, body, headers=None):
-        self.conn.send('/queue/MLResponse', body, headers)
-        _debug_log.debug('Send message success')
+    def send(self, request_id, body, headers=None):
+        try:
+            self.conn.send('/queue/MLResponse', body, headers)
+            _debug_log.debug(f'{request_id} - Send message response success')
+
+        except BaseException as exp:
+            _error_log.error(f'{request_id} - Send message got error: {exp}')
+            request_df['response_code'] = '05'
+
 
 
